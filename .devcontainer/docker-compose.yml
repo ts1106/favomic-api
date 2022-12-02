@@ -1,0 +1,36 @@
+version: '3'
+services:
+  golang-python:
+    image: mcr.microsoft.com/devcontainers/base:bullseye
+    environment:
+      TZ: Asia/Tokyo
+    tty: true
+    volumes:
+      - ..:/workspace:cached
+    ports:
+      - "8080:8080"
+    networks:
+      - api-network
+  
+  db:
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-database}
+      MYSQL_USER: ${MYSQL_USER:-user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-password}
+      TZ: Asia/Tokyo
+    restart: always
+    volumes:
+      - db-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - api-network
+
+volumes:
+  db-data:
+
+networks:
+  api-network:

@@ -1,0 +1,16 @@
+{
+    "name": "golang-python",
+    "dockerComposeFile": ["./docker-compose.yml"],
+    "service": "golang-python",
+    "workspaceFolder": "/workspace",
+    "features": {
+      "ghcr.io/devcontainers/features/python:1": {
+        "version": "latest",
+        "installJupyterlab": true
+      },
+      "ghcr.io/devcontainers/features/go:1": {
+        "version": "latest"
+      }
+    }
+}
+  
