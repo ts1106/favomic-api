@@ -11,6 +11,7 @@ require (
 	github.com/go-playground/universal-translator v0.18.0
 	github.com/go-playground/validator/v10 v10.11.1
 	github.com/go-sql-driver/mysql v1.6.0
+	github.com/mattn/go-sqlite3 v1.14.16
 	github.com/stretchr/testify v1.8.0
 )
 

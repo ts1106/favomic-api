@@ -17,17 +17,13 @@ func NewHandler(s *Server) *Handler {
 
 func (h *Handler) Create(w http.ResponseWriter, r *http.Request) {
 	var param CreateRequest
-	err := param.Decode(r.Body)
-	if err != nil {
-		code := http.StatusBadRequest
-		render.JSON(w, code, response.Err(code, err))
-		return
-	}
+	param.Decode(r.Body)
 
 	errs := param.Validate()
 	if errs != nil {
 		code := http.StatusBadRequest
 		render.JSON(w, code, response.Errs(code, errs))
+		return
 	}
 
 	res, err := h.server.Create(r.Context(), param)

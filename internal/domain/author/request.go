@@ -4,13 +4,11 @@ import (
 	"encoding/json"
 	"io"
 
-	"github.com/google/uuid"
 	"github.com/ts1106/favomic-api/internal/util/validator"
 )
 
 type CreateRequest struct {
-	Name   string      `json:"name" validate:"required"`
-	Comics []uuid.UUID `json:"comics"`
+	Name string `json:"name" validate:"required"`
 }
 
 func (r *CreateRequest) Decode(body io.Reader) error {

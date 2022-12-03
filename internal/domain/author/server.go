@@ -22,7 +22,6 @@ func NewServer(c *ent.Client) *Server {
 func (s *Server) Create(ctx context.Context, r CreateRequest) (*ent.Author, error) {
 	q := s.client.Author.Create()
 	q.SetName(r.Name)
-	q.AddComicIDs(r.Comics...)
 
 	e, err := q.Save(ctx)
 	if err != nil {

@@ -1,20 +1,21 @@
-package author
+package author_test
 
 import (
 	"errors"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/ts1106/favomic-api/internal/domain/author"
 )
 
 func TestCreateRequestValidation(t *testing.T) {
 	tests := []struct {
 		name string
-		obj  CreateRequest
+		obj  author.CreateRequest
 		want []error
 	}{
-		{"normal", CreateRequest{Name: "name"}, nil},
-		{"invalid: name is empty", CreateRequest{Name: ""}, []error{errors.New("Nameは必須フィールドです")}},
+		{"normal", author.CreateRequest{Name: "name"}, nil},
+		{"invalid: name is empty", author.CreateRequest{Name: ""}, []error{errors.New("Nameは必須フィールドです")}},
 	}
 
 	for _, tt := range tests {
