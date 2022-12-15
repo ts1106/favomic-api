@@ -6,7 +6,7 @@
         entList []*ent.{{ .G.EntType.Name }}
         pageSize int
     )
-    pageSize = int(req.GetPageSize())
+    pageSize = int(req.Msg.GetPageSize())
     switch {
     case pageSize < 0:
         return nil, {{ statusErrf "InvalidArgument" "page size cannot be less than zero" }}
@@ -16,8 +16,8 @@
     listQuery := svc.client.{{ .G.EntType.Name }}.Query().
         Order(ent.Desc({{ qualify (print (unquote .G.EntPackage.String) "/" .G.EntType.Package) "FieldID" }})).
         Limit(pageSize + 1)
-    if req.GetPageToken() != "" {
-        bytes, err := {{ qualify "encoding/base64" "StdEncoding.DecodeString" }}(req.PageToken)
+    if req.Msg.GetPageToken() != "" {
+        bytes, err := {{ qualify "encoding/base64" "StdEncoding.DecodeString" }}(req.Msg.PageToken)
         if err != nil {
             return nil, status.Errorf(codes.InvalidArgument, "page token is invalid")
         }
@@ -39,7 +39,7 @@
         listQuery = listQuery.
             Where({{ qualify (print (unquote .G.EntPackage.String) "/" .G.EntType.Package) "IDLTE" }}(pageToken))
     }
-    switch req.GetView() {
+    switch req.Msg.GetView() {
     case {{ $inputName }}_VIEW_UNSPECIFIED, {{ $inputName }}_BASIC:
         entList, err = listQuery.All(ctx)
     case {{ $inputName }}_WITH_EDGE_IDS:
@@ -64,10 +64,10 @@
         if err != nil {
             return nil, {{ statusErrf "Internal" "internal error: %s" "err" }}
         }
-        return &List{{ .G.EntType.Name }}Response{
+        return {{ qualify "github.com/bufbuild/connect-go" "NewResponse" }}(&List{{ .G.EntType.Name }}Response{
             {{ .G.EntType.Name }}List: protoList,
             NextPageToken: nextPageToken,
-        }, nil
+        }), nil
     default:
         return nil, {{ statusErrf "Internal" "internal error: %s" "err" }}
     }

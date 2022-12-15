@@ -6,7 +6,7 @@
     {{- $inputName := .Method.Input.GoIdent.GoName -}}
     {{- $methodName := .Method.GoName -}}
     {{- $reqVar := camel .G.EntType.Name -}}
-    {{ $reqVar }} := req.Get{{ .G.EntType.Name }}()
+    {{ $reqVar }} := req.Msg.Get{{ .G.EntType.Name }}()
     {{- if eq .Method.GoName "Create" }}
         m, err := svc.createBuilder({{ $reqVar }})
         if err != nil {
@@ -26,7 +26,7 @@
             if err != nil {
                 return nil, {{ statusErrf "Internal" "internal error: %s" "err" }}
             }
-            return proto, nil
+            return {{ qualify "github.com/bufbuild/connect-go" "NewResponse" }}(proto), nil
         case {{ qualify "entgo.io/ent/dialect/sql/sqlgraph" "IsUniqueConstraintError" }}(err):
             return nil, {{ statusErrf "AlreadyExists" "already exists: %s" "err"}}
         case {{ .G.EntPackage.Ident "IsConstraintError" | ident }}(err):
