@@ -11,6 +11,13 @@
       "ghcr.io/devcontainers/features/go:1": {
         "version": "latest"
       }
+    },
+    "customizations": {
+      "vscode": {
+        "extensions": [
+          "zxh404.vscode-proto3"
+        ]
+      }
     }
 }
   

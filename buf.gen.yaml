@@ -1,0 +1,17 @@
+version: v1
+managed:
+  enabled: true
+  go_package_prefix:
+    default: github.com/ts1106/favomic-api/gen
+plugins:
+  - plugin: go
+    out: gen
+    opt: paths=source_relative
+  - plugin: connect-go
+    out: gen
+    opt: paths=source_relative
+  - plugin: entconnect
+    out: gen
+    opt:
+      - paths=source_relative
+      - schema_path=./ent/schema
