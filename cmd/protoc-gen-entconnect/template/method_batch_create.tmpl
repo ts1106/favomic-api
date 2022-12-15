@@ -4,7 +4,7 @@
     {{- $varName := $idField.EntField.Name -}}
     {{- $inputName := .Method.Input.GoIdent.GoName -}}
     {{- $reqVar := camel .G.EntType.Name -}}
-    requests := req.GetRequests()
+    requests := req.Msg.GetRequests()
     if len(requests) > {{ qualify "entgo.io/contrib/entproto" "MaxBatchCreateSize" }}{
         return nil, {{ statusErrf "InvalidArgument" "batch size cannot be greater than %d" "entproto.MaxBatchCreateSize" }}
     }
@@ -24,9 +24,9 @@
             if err != nil {
                 return nil, {{ statusErrf "Internal" "internal error: %s" "err" }}
             }
-            return &BatchCreate{{ plural .G.EntType.Name }}Response{
+            return {{ qualify "github.com/bufbuild/connect-go" "NewResponse" }}(&BatchCreate{{ plural .G.EntType.Name }}Response{
                 {{ plural .G.EntType.Name }}: protoList,
-            }, nil
+            }), nil
         case {{ qualify "entgo.io/ent/dialect/sql/sqlgraph" "IsUniqueConstraintError" }}(err):
             return nil, {{ statusErrf "AlreadyExists" "already exists: %s" "err"}}
         case {{ .G.EntPackage.Ident "IsConstraintError" | ident }}(err):

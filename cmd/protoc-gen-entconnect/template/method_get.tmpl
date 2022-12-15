@@ -7,8 +7,8 @@
         err error
         get *{{ .G.EntPackage.Ident .G.EntType.Name | ident }}
     )
-    {{- template "field_to_ent" dict "Field" $idField "VarName" $idField.EntField.Name "Ident" (print "req.Get" $idField.PbStructField "()") }}
-    switch req.GetView() {
+    {{- template "field_to_ent" dict "Field" $idField "VarName" $idField.EntField.Name "Ident" (print "req.Msg.Get" $idField.PbStructField "()") }}
+    switch req.Msg.GetView() {
         case {{ $inputName }}_VIEW_UNSPECIFIED, {{ $inputName }}_BASIC:
             get, err = svc.client.{{ .G.EntType.Name }}.Get(ctx, {{ $varName }})
         case {{ $inputName }}_WITH_EDGE_IDS:
@@ -26,7 +26,8 @@
     }
     switch {
         case err == nil:
-            return toProto{{ .G.EntType.Name }}(get)
+            proto, err := toProto{{ .G.EntType.Name }}(get)
+            return {{ qualify "github.com/bufbuild/connect-go" "NewResponse" }}(proto), err
         case {{ .G.EntPackage.Ident "IsNotFound" | ident }}(err):
             return nil, {{ statusErrf "NotFound" "not found: %s" "err" }}
         default:
