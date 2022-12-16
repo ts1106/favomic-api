@@ -7,7 +7,9 @@ import (
 
 	"github.com/ts1106/favomic-api/ent"
 	"github.com/ts1106/favomic-api/ent/migrate"
-	"github.com/ts1106/favomic-api/internal/server"
+	"github.com/ts1106/favomic-api/internal/router"
+	"golang.org/x/net/http2"
+	"golang.org/x/net/http2/h2c"
 
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -24,9 +26,10 @@ func main() {
 		log.Fatalf("failed to creating schema resources: %v", err)
 	}
 
-	srv := server.NewServer(client)
-	srv.RouteRegister()
-	if err := http.ListenAndServe(":8080", srv); err != nil {
-		log.Fatalf("failed to listen and serve: %v", err)
-	}
+	r := router.NewRouter(client)
+
+	http.ListenAndServe(
+		"0.0.0.0:8080",
+		h2c.NewHandler(r, &http2.Server{}),
+	)
 }
