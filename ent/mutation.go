@@ -1145,7 +1145,7 @@ type EpisodeMutation struct {
 	id            *uuid.UUID
 	title         *string
 	url           *string
-	_Thumbnail    *string
+	thumbnail     *string
 	updated_at    *time.Time
 	clearedFields map[string]struct{}
 	comic         *uuid.UUID
@@ -1331,21 +1331,21 @@ func (m *EpisodeMutation) ResetURL() {
 	m.url = nil
 }
 
-// SetThumbnail sets the "Thumbnail" field.
+// SetThumbnail sets the "thumbnail" field.
 func (m *EpisodeMutation) SetThumbnail(s string) {
-	m._Thumbnail = &s
+	m.thumbnail = &s
 }
 
-// Thumbnail returns the value of the "Thumbnail" field in the mutation.
+// Thumbnail returns the value of the "thumbnail" field in the mutation.
 func (m *EpisodeMutation) Thumbnail() (r string, exists bool) {
-	v := m._Thumbnail
+	v := m.thumbnail
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldThumbnail returns the old "Thumbnail" field's value of the Episode entity.
+// OldThumbnail returns the old "thumbnail" field's value of the Episode entity.
 // If the Episode object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *EpisodeMutation) OldThumbnail(ctx context.Context) (v string, err error) {
@@ -1362,9 +1362,9 @@ func (m *EpisodeMutation) OldThumbnail(ctx context.Context) (v string, err error
 	return oldValue.Thumbnail, nil
 }
 
-// ResetThumbnail resets all changes to the "Thumbnail" field.
+// ResetThumbnail resets all changes to the "thumbnail" field.
 func (m *EpisodeMutation) ResetThumbnail() {
-	m._Thumbnail = nil
+	m.thumbnail = nil
 }
 
 // SetUpdatedAt sets the "updated_at" field.
@@ -1491,7 +1491,7 @@ func (m *EpisodeMutation) Fields() []string {
 	if m.url != nil {
 		fields = append(fields, episode.FieldURL)
 	}
-	if m._Thumbnail != nil {
+	if m.thumbnail != nil {
 		fields = append(fields, episode.FieldThumbnail)
 	}
 	if m.updated_at != nil {

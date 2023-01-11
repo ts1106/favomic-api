@@ -22,8 +22,8 @@ type Episode struct {
 	Title string `json:"title,omitempty"`
 	// URL holds the value of the "url" field.
 	URL string `json:"url,omitempty"`
-	// Thumbnail holds the value of the "Thumbnail" field.
-	Thumbnail string `json:"Thumbnail,omitempty"`
+	// Thumbnail holds the value of the "thumbnail" field.
+	Thumbnail string `json:"thumbnail,omitempty"`
 	// UpdatedAt holds the value of the "updated_at" field.
 	UpdatedAt time.Time `json:"updated_at,omitempty"`
 	// ComicID holds the value of the "comic_id" field.
@@ -101,7 +101,7 @@ func (e *Episode) assignValues(columns []string, values []any) error {
 			}
 		case episode.FieldThumbnail:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field Thumbnail", values[i])
+				return fmt.Errorf("unexpected type %T for field thumbnail", values[i])
 			} else if value.Valid {
 				e.Thumbnail = value.String
 			}
@@ -156,7 +156,7 @@ func (e *Episode) String() string {
 	builder.WriteString("url=")
 	builder.WriteString(e.URL)
 	builder.WriteString(", ")
-	builder.WriteString("Thumbnail=")
+	builder.WriteString("thumbnail=")
 	builder.WriteString(e.Thumbnail)
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")

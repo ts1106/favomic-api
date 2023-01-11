@@ -21,6 +21,8 @@ service AuthorService {
 
   rpc BatchCreate ( BatchCreateAuthorsRequest ) returns ( BatchCreateAuthorsResponse );
 
+  rpc Upsert ( UpsertAuthorRequest ) returns ( Author );
+
   rpc Search ( SearchAuthorRequest ) returns ( Author );
 }
 
@@ -84,6 +86,10 @@ message BatchCreateAuthorsResponse {
   repeated Author authors = 1;
 }
 
+message UpsertAuthorRequest {
+  Author author = 1;
+}
+
 message SearchAuthorRequest {
   string name = 1;
 
@@ -108,6 +114,8 @@ service ComicService {
   rpc List ( ListComicRequest ) returns ( ListComicResponse );
 
   rpc BatchCreate ( BatchCreateComicsRequest ) returns ( BatchCreateComicsResponse );
+
+  rpc Upsert ( UpsertComicRequest ) returns ( Comic );
 }
 
 message Comic {
@@ -180,6 +188,10 @@ message BatchCreateComicsResponse {
   repeated Comic comics = 1;
 }
 
+message UpsertComicRequest {
+  Comic comic = 1;
+}
+
 service EpisodeService {
   rpc Create ( CreateEpisodeRequest ) returns ( Episode );
 
@@ -192,6 +204,8 @@ service EpisodeService {
   rpc List ( ListEpisodeRequest ) returns ( ListEpisodeResponse );
 
   rpc BatchCreate ( BatchCreateEpisodesRequest ) returns ( BatchCreateEpisodesResponse );
+
+  rpc Upsert ( UpsertEpisodeRequest ) returns ( Episode );
 }
 
 message Episode {
@@ -262,6 +276,10 @@ message BatchCreateEpisodesResponse {
   repeated Episode episodes = 1;
 }
 
+message UpsertEpisodeRequest {
+  Episode episode = 1;
+}
+
 service MagazineService {
   rpc Create ( CreateMagazineRequest ) returns ( Magazine );
 
@@ -274,6 +292,8 @@ service MagazineService {
   rpc List ( ListMagazineRequest ) returns ( ListMagazineResponse );
 
   rpc BatchCreate ( BatchCreateMagazinesRequest ) returns ( BatchCreateMagazinesResponse );
+  
+  rpc Upsert ( UpsertMagazineRequest ) returns ( Magazine );
 }
 
 message Magazine {
@@ -334,6 +354,10 @@ message BatchCreateMagazinesRequest {
 
 message BatchCreateMagazinesResponse {
   repeated Magazine magazines = 1;
+}
+
+message UpsertMagazineRequest {
+  Magazine magazine = 1;
 }
 
 service TagService {

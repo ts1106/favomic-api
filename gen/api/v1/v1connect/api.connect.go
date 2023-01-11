@@ -42,6 +42,7 @@ type AuthorServiceClient interface {
 	Delete(context.Context, *connect_go.Request[v1.DeleteAuthorRequest]) (*connect_go.Response[emptypb.Empty], error)
 	List(context.Context, *connect_go.Request[v1.ListAuthorRequest]) (*connect_go.Response[v1.ListAuthorResponse], error)
 	BatchCreate(context.Context, *connect_go.Request[v1.BatchCreateAuthorsRequest]) (*connect_go.Response[v1.BatchCreateAuthorsResponse], error)
+	Upsert(context.Context, *connect_go.Request[v1.UpsertAuthorRequest]) (*connect_go.Response[v1.Author], error)
 	Search(context.Context, *connect_go.Request[v1.SearchAuthorRequest]) (*connect_go.Response[v1.Author], error)
 }
 
@@ -85,6 +86,11 @@ func NewAuthorServiceClient(httpClient connect_go.HTTPClient, baseURL string, op
 			baseURL+"/api.AuthorService/BatchCreate",
 			opts...,
 		),
+		upsert: connect_go.NewClient[v1.UpsertAuthorRequest, v1.Author](
+			httpClient,
+			baseURL+"/api.AuthorService/Upsert",
+			opts...,
+		),
 		search: connect_go.NewClient[v1.SearchAuthorRequest, v1.Author](
 			httpClient,
 			baseURL+"/api.AuthorService/Search",
@@ -101,6 +107,7 @@ type authorServiceClient struct {
 	delete      *connect_go.Client[v1.DeleteAuthorRequest, emptypb.Empty]
 	list        *connect_go.Client[v1.ListAuthorRequest, v1.ListAuthorResponse]
 	batchCreate *connect_go.Client[v1.BatchCreateAuthorsRequest, v1.BatchCreateAuthorsResponse]
+	upsert      *connect_go.Client[v1.UpsertAuthorRequest, v1.Author]
 	search      *connect_go.Client[v1.SearchAuthorRequest, v1.Author]
 }
 
@@ -134,6 +141,11 @@ func (c *authorServiceClient) BatchCreate(ctx context.Context, req *connect_go.R
 	return c.batchCreate.CallUnary(ctx, req)
 }
 
+// Upsert calls api.AuthorService.Upsert.
+func (c *authorServiceClient) Upsert(ctx context.Context, req *connect_go.Request[v1.UpsertAuthorRequest]) (*connect_go.Response[v1.Author], error) {
+	return c.upsert.CallUnary(ctx, req)
+}
+
 // Search calls api.AuthorService.Search.
 func (c *authorServiceClient) Search(ctx context.Context, req *connect_go.Request[v1.SearchAuthorRequest]) (*connect_go.Response[v1.Author], error) {
 	return c.search.CallUnary(ctx, req)
@@ -147,6 +159,7 @@ type AuthorServiceHandler interface {
 	Delete(context.Context, *connect_go.Request[v1.DeleteAuthorRequest]) (*connect_go.Response[emptypb.Empty], error)
 	List(context.Context, *connect_go.Request[v1.ListAuthorRequest]) (*connect_go.Response[v1.ListAuthorResponse], error)
 	BatchCreate(context.Context, *connect_go.Request[v1.BatchCreateAuthorsRequest]) (*connect_go.Response[v1.BatchCreateAuthorsResponse], error)
+	Upsert(context.Context, *connect_go.Request[v1.UpsertAuthorRequest]) (*connect_go.Response[v1.Author], error)
 	Search(context.Context, *connect_go.Request[v1.SearchAuthorRequest]) (*connect_go.Response[v1.Author], error)
 }
 
@@ -187,6 +200,11 @@ func NewAuthorServiceHandler(svc AuthorServiceHandler, opts ...connect_go.Handle
 		svc.BatchCreate,
 		opts...,
 	))
+	mux.Handle("/api.AuthorService/Upsert", connect_go.NewUnaryHandler(
+		"/api.AuthorService/Upsert",
+		svc.Upsert,
+		opts...,
+	))
 	mux.Handle("/api.AuthorService/Search", connect_go.NewUnaryHandler(
 		"/api.AuthorService/Search",
 		svc.Search,
@@ -222,6 +240,10 @@ func (UnimplementedAuthorServiceHandler) BatchCreate(context.Context, *connect_g
 	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("api.AuthorService.BatchCreate is not implemented"))
 }
 
+func (UnimplementedAuthorServiceHandler) Upsert(context.Context, *connect_go.Request[v1.UpsertAuthorRequest]) (*connect_go.Response[v1.Author], error) {
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("api.AuthorService.Upsert is not implemented"))
+}
+
 func (UnimplementedAuthorServiceHandler) Search(context.Context, *connect_go.Request[v1.SearchAuthorRequest]) (*connect_go.Response[v1.Author], error) {
 	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("api.AuthorService.Search is not implemented"))
 }
@@ -234,6 +256,7 @@ type ComicServiceClient interface {
 	Delete(context.Context, *connect_go.Request[v1.DeleteComicRequest]) (*connect_go.Response[emptypb.Empty], error)
 	List(context.Context, *connect_go.Request[v1.ListComicRequest]) (*connect_go.Response[v1.ListComicResponse], error)
 	BatchCreate(context.Context, *connect_go.Request[v1.BatchCreateComicsRequest]) (*connect_go.Response[v1.BatchCreateComicsResponse], error)
+	Upsert(context.Context, *connect_go.Request[v1.UpsertComicRequest]) (*connect_go.Response[v1.Comic], error)
 }
 
 // NewComicServiceClient constructs a client for the api.ComicService service. By default, it uses
@@ -276,6 +299,11 @@ func NewComicServiceClient(httpClient connect_go.HTTPClient, baseURL string, opt
 			baseURL+"/api.ComicService/BatchCreate",
 			opts...,
 		),
+		upsert: connect_go.NewClient[v1.UpsertComicRequest, v1.Comic](
+			httpClient,
+			baseURL+"/api.ComicService/Upsert",
+			opts...,
+		),
 	}
 }
 
@@ -287,6 +315,7 @@ type comicServiceClient struct {
 	delete      *connect_go.Client[v1.DeleteComicRequest, emptypb.Empty]
 	list        *connect_go.Client[v1.ListComicRequest, v1.ListComicResponse]
 	batchCreate *connect_go.Client[v1.BatchCreateComicsRequest, v1.BatchCreateComicsResponse]
+	upsert      *connect_go.Client[v1.UpsertComicRequest, v1.Comic]
 }
 
 // Create calls api.ComicService.Create.
@@ -319,6 +348,11 @@ func (c *comicServiceClient) BatchCreate(ctx context.Context, req *connect_go.Re
 	return c.batchCreate.CallUnary(ctx, req)
 }
 
+// Upsert calls api.ComicService.Upsert.
+func (c *comicServiceClient) Upsert(ctx context.Context, req *connect_go.Request[v1.UpsertComicRequest]) (*connect_go.Response[v1.Comic], error) {
+	return c.upsert.CallUnary(ctx, req)
+}
+
 // ComicServiceHandler is an implementation of the api.ComicService service.
 type ComicServiceHandler interface {
 	Create(context.Context, *connect_go.Request[v1.CreateComicRequest]) (*connect_go.Response[v1.Comic], error)
@@ -327,6 +361,7 @@ type ComicServiceHandler interface {
 	Delete(context.Context, *connect_go.Request[v1.DeleteComicRequest]) (*connect_go.Response[emptypb.Empty], error)
 	List(context.Context, *connect_go.Request[v1.ListComicRequest]) (*connect_go.Response[v1.ListComicResponse], error)
 	BatchCreate(context.Context, *connect_go.Request[v1.BatchCreateComicsRequest]) (*connect_go.Response[v1.BatchCreateComicsResponse], error)
+	Upsert(context.Context, *connect_go.Request[v1.UpsertComicRequest]) (*connect_go.Response[v1.Comic], error)
 }
 
 // NewComicServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -366,6 +401,11 @@ func NewComicServiceHandler(svc ComicServiceHandler, opts ...connect_go.HandlerO
 		svc.BatchCreate,
 		opts...,
 	))
+	mux.Handle("/api.ComicService/Upsert", connect_go.NewUnaryHandler(
+		"/api.ComicService/Upsert",
+		svc.Upsert,
+		opts...,
+	))
 	return "/api.ComicService/", mux
 }
 
@@ -396,6 +436,10 @@ func (UnimplementedComicServiceHandler) BatchCreate(context.Context, *connect_go
 	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("api.ComicService.BatchCreate is not implemented"))
 }
 
+func (UnimplementedComicServiceHandler) Upsert(context.Context, *connect_go.Request[v1.UpsertComicRequest]) (*connect_go.Response[v1.Comic], error) {
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("api.ComicService.Upsert is not implemented"))
+}
+
 // EpisodeServiceClient is a client for the api.EpisodeService service.
 type EpisodeServiceClient interface {
 	Create(context.Context, *connect_go.Request[v1.CreateEpisodeRequest]) (*connect_go.Response[v1.Episode], error)
@@ -404,6 +448,7 @@ type EpisodeServiceClient interface {
 	Delete(context.Context, *connect_go.Request[v1.DeleteEpisodeRequest]) (*connect_go.Response[emptypb.Empty], error)
 	List(context.Context, *connect_go.Request[v1.ListEpisodeRequest]) (*connect_go.Response[v1.ListEpisodeResponse], error)
 	BatchCreate(context.Context, *connect_go.Request[v1.BatchCreateEpisodesRequest]) (*connect_go.Response[v1.BatchCreateEpisodesResponse], error)
+	Upsert(context.Context, *connect_go.Request[v1.UpsertEpisodeRequest]) (*connect_go.Response[v1.Episode], error)
 }
 
 // NewEpisodeServiceClient constructs a client for the api.EpisodeService service. By default, it
@@ -446,6 +491,11 @@ func NewEpisodeServiceClient(httpClient connect_go.HTTPClient, baseURL string, o
 			baseURL+"/api.EpisodeService/BatchCreate",
 			opts...,
 		),
+		upsert: connect_go.NewClient[v1.UpsertEpisodeRequest, v1.Episode](
+			httpClient,
+			baseURL+"/api.EpisodeService/Upsert",
+			opts...,
+		),
 	}
 }
 
@@ -457,6 +507,7 @@ type episodeServiceClient struct {
 	delete      *connect_go.Client[v1.DeleteEpisodeRequest, emptypb.Empty]
 	list        *connect_go.Client[v1.ListEpisodeRequest, v1.ListEpisodeResponse]
 	batchCreate *connect_go.Client[v1.BatchCreateEpisodesRequest, v1.BatchCreateEpisodesResponse]
+	upsert      *connect_go.Client[v1.UpsertEpisodeRequest, v1.Episode]
 }
 
 // Create calls api.EpisodeService.Create.
@@ -489,6 +540,11 @@ func (c *episodeServiceClient) BatchCreate(ctx context.Context, req *connect_go.
 	return c.batchCreate.CallUnary(ctx, req)
 }
 
+// Upsert calls api.EpisodeService.Upsert.
+func (c *episodeServiceClient) Upsert(ctx context.Context, req *connect_go.Request[v1.UpsertEpisodeRequest]) (*connect_go.Response[v1.Episode], error) {
+	return c.upsert.CallUnary(ctx, req)
+}
+
 // EpisodeServiceHandler is an implementation of the api.EpisodeService service.
 type EpisodeServiceHandler interface {
 	Create(context.Context, *connect_go.Request[v1.CreateEpisodeRequest]) (*connect_go.Response[v1.Episode], error)
@@ -497,6 +553,7 @@ type EpisodeServiceHandler interface {
 	Delete(context.Context, *connect_go.Request[v1.DeleteEpisodeRequest]) (*connect_go.Response[emptypb.Empty], error)
 	List(context.Context, *connect_go.Request[v1.ListEpisodeRequest]) (*connect_go.Response[v1.ListEpisodeResponse], error)
 	BatchCreate(context.Context, *connect_go.Request[v1.BatchCreateEpisodesRequest]) (*connect_go.Response[v1.BatchCreateEpisodesResponse], error)
+	Upsert(context.Context, *connect_go.Request[v1.UpsertEpisodeRequest]) (*connect_go.Response[v1.Episode], error)
 }
 
 // NewEpisodeServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -536,6 +593,11 @@ func NewEpisodeServiceHandler(svc EpisodeServiceHandler, opts ...connect_go.Hand
 		svc.BatchCreate,
 		opts...,
 	))
+	mux.Handle("/api.EpisodeService/Upsert", connect_go.NewUnaryHandler(
+		"/api.EpisodeService/Upsert",
+		svc.Upsert,
+		opts...,
+	))
 	return "/api.EpisodeService/", mux
 }
 
@@ -566,6 +628,10 @@ func (UnimplementedEpisodeServiceHandler) BatchCreate(context.Context, *connect_
 	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("api.EpisodeService.BatchCreate is not implemented"))
 }
 
+func (UnimplementedEpisodeServiceHandler) Upsert(context.Context, *connect_go.Request[v1.UpsertEpisodeRequest]) (*connect_go.Response[v1.Episode], error) {
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("api.EpisodeService.Upsert is not implemented"))
+}
+
 // MagazineServiceClient is a client for the api.MagazineService service.
 type MagazineServiceClient interface {
 	Create(context.Context, *connect_go.Request[v1.CreateMagazineRequest]) (*connect_go.Response[v1.Magazine], error)
@@ -574,6 +640,7 @@ type MagazineServiceClient interface {
 	Delete(context.Context, *connect_go.Request[v1.DeleteMagazineRequest]) (*connect_go.Response[emptypb.Empty], error)
 	List(context.Context, *connect_go.Request[v1.ListMagazineRequest]) (*connect_go.Response[v1.ListMagazineResponse], error)
 	BatchCreate(context.Context, *connect_go.Request[v1.BatchCreateMagazinesRequest]) (*connect_go.Response[v1.BatchCreateMagazinesResponse], error)
+	Upsert(context.Context, *connect_go.Request[v1.UpsertMagazineRequest]) (*connect_go.Response[v1.Magazine], error)
 }
 
 // NewMagazineServiceClient constructs a client for the api.MagazineService service. By default, it
@@ -616,6 +683,11 @@ func NewMagazineServiceClient(httpClient connect_go.HTTPClient, baseURL string, 
 			baseURL+"/api.MagazineService/BatchCreate",
 			opts...,
 		),
+		upsert: connect_go.NewClient[v1.UpsertMagazineRequest, v1.Magazine](
+			httpClient,
+			baseURL+"/api.MagazineService/Upsert",
+			opts...,
+		),
 	}
 }
 
@@ -627,6 +699,7 @@ type magazineServiceClient struct {
 	delete      *connect_go.Client[v1.DeleteMagazineRequest, emptypb.Empty]
 	list        *connect_go.Client[v1.ListMagazineRequest, v1.ListMagazineResponse]
 	batchCreate *connect_go.Client[v1.BatchCreateMagazinesRequest, v1.BatchCreateMagazinesResponse]
+	upsert      *connect_go.Client[v1.UpsertMagazineRequest, v1.Magazine]
 }
 
 // Create calls api.MagazineService.Create.
@@ -659,6 +732,11 @@ func (c *magazineServiceClient) BatchCreate(ctx context.Context, req *connect_go
 	return c.batchCreate.CallUnary(ctx, req)
 }
 
+// Upsert calls api.MagazineService.Upsert.
+func (c *magazineServiceClient) Upsert(ctx context.Context, req *connect_go.Request[v1.UpsertMagazineRequest]) (*connect_go.Response[v1.Magazine], error) {
+	return c.upsert.CallUnary(ctx, req)
+}
+
 // MagazineServiceHandler is an implementation of the api.MagazineService service.
 type MagazineServiceHandler interface {
 	Create(context.Context, *connect_go.Request[v1.CreateMagazineRequest]) (*connect_go.Response[v1.Magazine], error)
@@ -667,6 +745,7 @@ type MagazineServiceHandler interface {
 	Delete(context.Context, *connect_go.Request[v1.DeleteMagazineRequest]) (*connect_go.Response[emptypb.Empty], error)
 	List(context.Context, *connect_go.Request[v1.ListMagazineRequest]) (*connect_go.Response[v1.ListMagazineResponse], error)
 	BatchCreate(context.Context, *connect_go.Request[v1.BatchCreateMagazinesRequest]) (*connect_go.Response[v1.BatchCreateMagazinesResponse], error)
+	Upsert(context.Context, *connect_go.Request[v1.UpsertMagazineRequest]) (*connect_go.Response[v1.Magazine], error)
 }
 
 // NewMagazineServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -706,6 +785,11 @@ func NewMagazineServiceHandler(svc MagazineServiceHandler, opts ...connect_go.Ha
 		svc.BatchCreate,
 		opts...,
 	))
+	mux.Handle("/api.MagazineService/Upsert", connect_go.NewUnaryHandler(
+		"/api.MagazineService/Upsert",
+		svc.Upsert,
+		opts...,
+	))
 	return "/api.MagazineService/", mux
 }
 
@@ -734,6 +818,10 @@ func (UnimplementedMagazineServiceHandler) List(context.Context, *connect_go.Req
 
 func (UnimplementedMagazineServiceHandler) BatchCreate(context.Context, *connect_go.Request[v1.BatchCreateMagazinesRequest]) (*connect_go.Response[v1.BatchCreateMagazinesResponse], error) {
 	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("api.MagazineService.BatchCreate is not implemented"))
+}
+
+func (UnimplementedMagazineServiceHandler) Upsert(context.Context, *connect_go.Request[v1.UpsertMagazineRequest]) (*connect_go.Response[v1.Magazine], error) {
+	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("api.MagazineService.Upsert is not implemented"))
 }
 
 // TagServiceClient is a client for the api.TagService service.

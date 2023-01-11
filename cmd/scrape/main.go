@@ -7,36 +7,75 @@ import (
 
 	"github.com/bufbuild/connect-go"
 	"github.com/mmcdole/gofeed"
-	"github.com/ts1106/favomic-api/gen/ent/proto/entpb"
-	api "github.com/ts1106/favomic-api/gen/ent/proto/entpb/entpbconnect"
+	api "github.com/ts1106/favomic-api/gen/api/v1"
+	apiconnect "github.com/ts1106/favomic-api/gen/api/v1/v1connect"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 func main() {
-	ac := api.NewAuthorServiceClient(http.DefaultClient, "http://localhost:8080")
-	// ec := entpbconnect.NewEpisodeServiceClient(http.DefaultClient, "http://localhost:8080")
-	// cc := entpbconnect.NewComicServiceClient(http.DefaultClient, "http://localhost:8080")
+	ac := apiconnect.NewAuthorServiceClient(http.DefaultClient, "http://localhost:8080")
+	ec := apiconnect.NewEpisodeServiceClient(http.DefaultClient, "http://localhost:8080")
+	cc := apiconnect.NewComicServiceClient(http.DefaultClient, "http://localhost:8080")
+	mc := apiconnect.NewMagazineServiceClient(http.DefaultClient, "http://localhost:8080")
+
+	magazine := registMagazine(mc, "少年ジャンプ＋")
 
 	fp := gofeed.NewParser()
 	feed, _ := fp.ParseURL("https://shonenjumpplus.com/atom")
 	for _, item := range feed.Items {
-		// fmt.Println(item.Title)             // episode title
-		// fmt.Println(item.Content)           // magazine title
-		// fmt.Println(item.Link)              // episode link
-		// fmt.Println(item.Updated)           // updated at
-		// fmt.Println(item.Authors[0].Name)   // author
-		// fmt.Println(item.Enclosures[0].URL) // thumbnail
-		registAuthor(ac, item.Authors[0])
-		break
+		author := registAuthor(ac, item.Authors[0])
+		comic := registComic(cc, item, author.GetId(), magazine.GetId())
+		_ = registEpisode(ec, item, comic.GetId())
 	}
 }
 
-func registAuthor(c api.AuthorServiceClient, a *gofeed.Person) {
-	res, err := c.Create(
+func registMagazine(c apiconnect.MagazineServiceClient, name string) *api.Magazine {
+	res, err := c.Upsert(
 		context.Background(),
-		connect.NewRequest(&entpb.CreateAuthorRequest{Author: &entpb.Author{Name: a.Name}}),
+		connect.NewRequest(&api.UpsertMagazineRequest{Magazine: &api.Magazine{Name: name}}),
 	)
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Printf("%v", res.Msg)
+	return res.Msg
+}
+
+func registAuthor(c apiconnect.AuthorServiceClient, a *gofeed.Person) *api.Author {
+	res, err := c.Upsert(
+		context.Background(),
+		connect.NewRequest(&api.UpsertAuthorRequest{Author: &api.Author{Name: a.Name}}),
+	)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return res.Msg
+}
+
+func registEpisode(c apiconnect.EpisodeServiceClient, item *gofeed.Item, comicId []byte) *api.Episode {
+	res, err := c.Upsert(
+		context.Background(),
+		connect.NewRequest(
+			&api.UpsertEpisodeRequest{Episode: &api.Episode{
+				Title:     item.Title,
+				Url:       item.Link,
+				Thumbnail: item.Enclosures[0].URL,
+				UpdatedAt: timestamppb.New(*item.UpdatedParsed),
+				ComicId:   comicId,
+			}}),
+	)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return res.Msg
+}
+
+func registComic(c apiconnect.ComicServiceClient, item *gofeed.Item, authorId []byte, magazineId []byte) *api.Comic {
+	res, err := c.Upsert(
+		context.Background(),
+		connect.NewRequest(&api.UpsertComicRequest{Comic: &api.Comic{Title: item.Content, AuthorId: authorId, MagazineId: magazineId}}),
+	)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return res.Msg
 }

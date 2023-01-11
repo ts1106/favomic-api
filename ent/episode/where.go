@@ -96,7 +96,7 @@ func URL(v string) predicate.Episode {
 	})
 }
 
-// Thumbnail applies equality check predicate on the "Thumbnail" field. It's identical to ThumbnailEQ.
+// Thumbnail applies equality check predicate on the "thumbnail" field. It's identical to ThumbnailEQ.
 func Thumbnail(v string) predicate.Episode {
 	return predicate.Episode(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldThumbnail), v))
@@ -315,21 +315,21 @@ func URLContainsFold(v string) predicate.Episode {
 	})
 }
 
-// ThumbnailEQ applies the EQ predicate on the "Thumbnail" field.
+// ThumbnailEQ applies the EQ predicate on the "thumbnail" field.
 func ThumbnailEQ(v string) predicate.Episode {
 	return predicate.Episode(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldThumbnail), v))
 	})
 }
 
-// ThumbnailNEQ applies the NEQ predicate on the "Thumbnail" field.
+// ThumbnailNEQ applies the NEQ predicate on the "thumbnail" field.
 func ThumbnailNEQ(v string) predicate.Episode {
 	return predicate.Episode(func(s *sql.Selector) {
 		s.Where(sql.NEQ(s.C(FieldThumbnail), v))
 	})
 }
 
-// ThumbnailIn applies the In predicate on the "Thumbnail" field.
+// ThumbnailIn applies the In predicate on the "thumbnail" field.
 func ThumbnailIn(vs ...string) predicate.Episode {
 	v := make([]any, len(vs))
 	for i := range v {
@@ -340,7 +340,7 @@ func ThumbnailIn(vs ...string) predicate.Episode {
 	})
 }
 
-// ThumbnailNotIn applies the NotIn predicate on the "Thumbnail" field.
+// ThumbnailNotIn applies the NotIn predicate on the "thumbnail" field.
 func ThumbnailNotIn(vs ...string) predicate.Episode {
 	v := make([]any, len(vs))
 	for i := range v {
@@ -351,63 +351,63 @@ func ThumbnailNotIn(vs ...string) predicate.Episode {
 	})
 }
 
-// ThumbnailGT applies the GT predicate on the "Thumbnail" field.
+// ThumbnailGT applies the GT predicate on the "thumbnail" field.
 func ThumbnailGT(v string) predicate.Episode {
 	return predicate.Episode(func(s *sql.Selector) {
 		s.Where(sql.GT(s.C(FieldThumbnail), v))
 	})
 }
 
-// ThumbnailGTE applies the GTE predicate on the "Thumbnail" field.
+// ThumbnailGTE applies the GTE predicate on the "thumbnail" field.
 func ThumbnailGTE(v string) predicate.Episode {
 	return predicate.Episode(func(s *sql.Selector) {
 		s.Where(sql.GTE(s.C(FieldThumbnail), v))
 	})
 }
 
-// ThumbnailLT applies the LT predicate on the "Thumbnail" field.
+// ThumbnailLT applies the LT predicate on the "thumbnail" field.
 func ThumbnailLT(v string) predicate.Episode {
 	return predicate.Episode(func(s *sql.Selector) {
 		s.Where(sql.LT(s.C(FieldThumbnail), v))
 	})
 }
 
-// ThumbnailLTE applies the LTE predicate on the "Thumbnail" field.
+// ThumbnailLTE applies the LTE predicate on the "thumbnail" field.
 func ThumbnailLTE(v string) predicate.Episode {
 	return predicate.Episode(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldThumbnail), v))
 	})
 }
 
-// ThumbnailContains applies the Contains predicate on the "Thumbnail" field.
+// ThumbnailContains applies the Contains predicate on the "thumbnail" field.
 func ThumbnailContains(v string) predicate.Episode {
 	return predicate.Episode(func(s *sql.Selector) {
 		s.Where(sql.Contains(s.C(FieldThumbnail), v))
 	})
 }
 
-// ThumbnailHasPrefix applies the HasPrefix predicate on the "Thumbnail" field.
+// ThumbnailHasPrefix applies the HasPrefix predicate on the "thumbnail" field.
 func ThumbnailHasPrefix(v string) predicate.Episode {
 	return predicate.Episode(func(s *sql.Selector) {
 		s.Where(sql.HasPrefix(s.C(FieldThumbnail), v))
 	})
 }
 
-// ThumbnailHasSuffix applies the HasSuffix predicate on the "Thumbnail" field.
+// ThumbnailHasSuffix applies the HasSuffix predicate on the "thumbnail" field.
 func ThumbnailHasSuffix(v string) predicate.Episode {
 	return predicate.Episode(func(s *sql.Selector) {
 		s.Where(sql.HasSuffix(s.C(FieldThumbnail), v))
 	})
 }
 
-// ThumbnailEqualFold applies the EqualFold predicate on the "Thumbnail" field.
+// ThumbnailEqualFold applies the EqualFold predicate on the "thumbnail" field.
 func ThumbnailEqualFold(v string) predicate.Episode {
 	return predicate.Episode(func(s *sql.Selector) {
 		s.Where(sql.EqualFold(s.C(FieldThumbnail), v))
 	})
 }
 
-// ThumbnailContainsFold applies the ContainsFold predicate on the "Thumbnail" field.
+// ThumbnailContainsFold applies the ContainsFold predicate on the "thumbnail" field.
 func ThumbnailContainsFold(v string) predicate.Episode {
 	return predicate.Episode(func(s *sql.Selector) {
 		s.Where(sql.ContainsFold(s.C(FieldThumbnail), v))

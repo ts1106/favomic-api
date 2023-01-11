@@ -48,9 +48,9 @@ func init() {
 	episodeDescURL := episodeFields[2].Descriptor()
 	// episode.URLValidator is a validator for the "url" field. It is called by the builders before save.
 	episode.URLValidator = episodeDescURL.Validators[0].(func(string) error)
-	// episodeDescThumbnail is the schema descriptor for Thumbnail field.
+	// episodeDescThumbnail is the schema descriptor for thumbnail field.
 	episodeDescThumbnail := episodeFields[3].Descriptor()
-	// episode.ThumbnailValidator is a validator for the "Thumbnail" field. It is called by the builders before save.
+	// episode.ThumbnailValidator is a validator for the "thumbnail" field. It is called by the builders before save.
 	episode.ThumbnailValidator = episodeDescThumbnail.Validators[0].(func(string) error)
 	// episodeDescUpdatedAt is the schema descriptor for updated_at field.
 	episodeDescUpdatedAt := episodeFields[4].Descriptor()

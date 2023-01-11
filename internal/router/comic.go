@@ -4,12 +4,12 @@ import (
 	"github.com/bufbuild/connect-go"
 	"github.com/go-chi/chi/v5"
 	"github.com/ts1106/favomic-api/ent"
-	"github.com/ts1106/favomic-api/gen/ent/proto/entpb"
+	"github.com/ts1106/favomic-api/internal/service"
 )
 
 func comicRouter(c *ent.Client) chi.Router {
 	r := chi.NewRouter()
-	svc := entpb.NewComicService(c)
+	svc := service.NewComicService(c)
 	r.Handle("/Create", connect.NewUnaryHandler(
 		"/Create",
 		svc.Create,
@@ -33,6 +33,10 @@ func comicRouter(c *ent.Client) chi.Router {
 	r.Handle("/BatchCreate", connect.NewUnaryHandler(
 		"/BatchCreate",
 		svc.BatchCreate,
+	))
+	r.Handle("/Upsert", connect.NewUnaryHandler(
+		"/Upsert",
+		svc.Upsert,
 	))
 	return r
 }
