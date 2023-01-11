@@ -35,7 +35,7 @@ func (Episode) Fields() []ent.Field {
 			Annotations(
 				entproto.Field(3),
 			),
-		field.String("Thumbnail").
+		field.String("thumbnail").
 			NotEmpty().
 			Annotations(
 				entproto.Field(4),
@@ -68,7 +68,7 @@ func (Episode) Edges() []ent.Edge {
 
 func (Episode) Annotations() []schema.Annotation {
 	return []schema.Annotation{
-		entproto.Message(),
-		entproto.Service(),
+		// entproto.Message(),
+		// entproto.Service(),
 	}
 }

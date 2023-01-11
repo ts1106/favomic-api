@@ -61,7 +61,7 @@ var (
 	TitleValidator func(string) error
 	// URLValidator is a validator for the "url" field. It is called by the builders before save.
 	URLValidator func(string) error
-	// ThumbnailValidator is a validator for the "Thumbnail" field. It is called by the builders before save.
+	// ThumbnailValidator is a validator for the "thumbnail" field. It is called by the builders before save.
 	ThumbnailValidator func(string) error
 	// DefaultUpdatedAt holds the default value on creation for the "updated_at" field.
 	DefaultUpdatedAt func() time.Time

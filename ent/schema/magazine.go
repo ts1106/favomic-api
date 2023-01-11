@@ -46,7 +46,7 @@ func (Magazine) Edges() []ent.Edge {
 
 func (Magazine) Annotations() []schema.Annotation {
 	return []schema.Annotation{
-		entproto.Message(),
-		entproto.Service(),
+		// entproto.Message(),
+		// entproto.Service(),
 	}
 }

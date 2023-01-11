@@ -42,7 +42,7 @@ func (eu *EpisodeUpdate) SetURL(s string) *EpisodeUpdate {
 	return eu
 }
 
-// SetThumbnail sets the "Thumbnail" field.
+// SetThumbnail sets the "thumbnail" field.
 func (eu *EpisodeUpdate) SetThumbnail(s string) *EpisodeUpdate {
 	eu.mutation.SetThumbnail(s)
 	return eu
@@ -158,7 +158,7 @@ func (eu *EpisodeUpdate) check() error {
 	}
 	if v, ok := eu.mutation.Thumbnail(); ok {
 		if err := episode.ThumbnailValidator(v); err != nil {
-			return &ValidationError{Name: "Thumbnail", err: fmt.Errorf(`ent: validator failed for field "Episode.Thumbnail": %w`, err)}
+			return &ValidationError{Name: "thumbnail", err: fmt.Errorf(`ent: validator failed for field "Episode.thumbnail": %w`, err)}
 		}
 	}
 	if _, ok := eu.mutation.ComicID(); eu.mutation.ComicCleared() && !ok {
@@ -263,7 +263,7 @@ func (euo *EpisodeUpdateOne) SetURL(s string) *EpisodeUpdateOne {
 	return euo
 }
 
-// SetThumbnail sets the "Thumbnail" field.
+// SetThumbnail sets the "thumbnail" field.
 func (euo *EpisodeUpdateOne) SetThumbnail(s string) *EpisodeUpdateOne {
 	euo.mutation.SetThumbnail(s)
 	return euo
@@ -392,7 +392,7 @@ func (euo *EpisodeUpdateOne) check() error {
 	}
 	if v, ok := euo.mutation.Thumbnail(); ok {
 		if err := episode.ThumbnailValidator(v); err != nil {
-			return &ValidationError{Name: "Thumbnail", err: fmt.Errorf(`ent: validator failed for field "Episode.Thumbnail": %w`, err)}
+			return &ValidationError{Name: "thumbnail", err: fmt.Errorf(`ent: validator failed for field "Episode.thumbnail": %w`, err)}
 		}
 	}
 	if _, ok := euo.mutation.ComicID(); euo.mutation.ComicCleared() && !ok {

@@ -4,12 +4,12 @@ import (
 	"github.com/bufbuild/connect-go"
 	"github.com/go-chi/chi/v5"
 	"github.com/ts1106/favomic-api/ent"
-	"github.com/ts1106/favomic-api/gen/ent/proto/entpb"
+	"github.com/ts1106/favomic-api/internal/service"
 )
 
 func tagRouter(c *ent.Client) chi.Router {
 	r := chi.NewRouter()
-	svc := entpb.NewTagService(c)
+	svc := service.NewTagService(c)
 	r.Handle("/Create", connect.NewUnaryHandler(
 		"/Create",
 		svc.Create,

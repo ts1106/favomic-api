@@ -37,7 +37,7 @@ func (ec *EpisodeCreate) SetURL(s string) *EpisodeCreate {
 	return ec
 }
 
-// SetThumbnail sets the "Thumbnail" field.
+// SetThumbnail sets the "thumbnail" field.
 func (ec *EpisodeCreate) SetThumbnail(s string) *EpisodeCreate {
 	ec.mutation.SetThumbnail(s)
 	return ec
@@ -188,11 +188,11 @@ func (ec *EpisodeCreate) check() error {
 		}
 	}
 	if _, ok := ec.mutation.Thumbnail(); !ok {
-		return &ValidationError{Name: "Thumbnail", err: errors.New(`ent: missing required field "Episode.Thumbnail"`)}
+		return &ValidationError{Name: "thumbnail", err: errors.New(`ent: missing required field "Episode.thumbnail"`)}
 	}
 	if v, ok := ec.mutation.Thumbnail(); ok {
 		if err := episode.ThumbnailValidator(v); err != nil {
-			return &ValidationError{Name: "Thumbnail", err: fmt.Errorf(`ent: validator failed for field "Episode.Thumbnail": %w`, err)}
+			return &ValidationError{Name: "thumbnail", err: fmt.Errorf(`ent: validator failed for field "Episode.thumbnail": %w`, err)}
 		}
 	}
 	if _, ok := ec.mutation.UpdatedAt(); !ok {
@@ -353,13 +353,13 @@ func (u *EpisodeUpsert) UpdateURL() *EpisodeUpsert {
 	return u
 }
 
-// SetThumbnail sets the "Thumbnail" field.
+// SetThumbnail sets the "thumbnail" field.
 func (u *EpisodeUpsert) SetThumbnail(v string) *EpisodeUpsert {
 	u.Set(episode.FieldThumbnail, v)
 	return u
 }
 
-// UpdateThumbnail sets the "Thumbnail" field to the value that was provided on create.
+// UpdateThumbnail sets the "thumbnail" field to the value that was provided on create.
 func (u *EpisodeUpsert) UpdateThumbnail() *EpisodeUpsert {
 	u.SetExcluded(episode.FieldThumbnail)
 	return u
@@ -465,14 +465,14 @@ func (u *EpisodeUpsertOne) UpdateURL() *EpisodeUpsertOne {
 	})
 }
 
-// SetThumbnail sets the "Thumbnail" field.
+// SetThumbnail sets the "thumbnail" field.
 func (u *EpisodeUpsertOne) SetThumbnail(v string) *EpisodeUpsertOne {
 	return u.Update(func(s *EpisodeUpsert) {
 		s.SetThumbnail(v)
 	})
 }
 
-// UpdateThumbnail sets the "Thumbnail" field to the value that was provided on create.
+// UpdateThumbnail sets the "thumbnail" field to the value that was provided on create.
 func (u *EpisodeUpsertOne) UpdateThumbnail() *EpisodeUpsertOne {
 	return u.Update(func(s *EpisodeUpsert) {
 		s.UpdateThumbnail()
@@ -746,14 +746,14 @@ func (u *EpisodeUpsertBulk) UpdateURL() *EpisodeUpsertBulk {
 	})
 }
 
-// SetThumbnail sets the "Thumbnail" field.
+// SetThumbnail sets the "thumbnail" field.
 func (u *EpisodeUpsertBulk) SetThumbnail(v string) *EpisodeUpsertBulk {
 	return u.Update(func(s *EpisodeUpsert) {
 		s.SetThumbnail(v)
 	})
 }
 
-// UpdateThumbnail sets the "Thumbnail" field to the value that was provided on create.
+// UpdateThumbnail sets the "thumbnail" field to the value that was provided on create.
 func (u *EpisodeUpsertBulk) UpdateThumbnail() *EpisodeUpsertBulk {
 	return u.Update(func(s *EpisodeUpsert) {
 		s.UpdateThumbnail()

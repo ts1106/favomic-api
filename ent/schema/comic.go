@@ -84,7 +84,7 @@ func (Comic) Indexes() []ent.Index {
 
 func (Comic) Annotations() []schema.Annotation {
 	return []schema.Annotation{
-		entproto.Message(),
-		entproto.Service(),
+		// entproto.Message(),
+		// entproto.Service(),
 	}
 }

@@ -46,7 +46,7 @@ func (Author) Edges() []ent.Edge {
 
 func (Author) Annotations() []schema.Annotation {
 	return []schema.Annotation{
-		entproto.Message(),
-		entproto.Service(),
+		// entproto.Message(),
+		// entproto.Service(),
 	}
 }
