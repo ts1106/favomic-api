@@ -10,8 +10,8 @@ require (
 	github.com/bufbuild/connect-go v1.4.0
 	github.com/go-chi/chi/v5 v5.0.7
 	github.com/go-sql-driver/mysql v1.6.0
-	github.com/jhump/protoreflect v1.14.0
 	github.com/mmcdole/gofeed v1.1.3
+	github.com/rs/cors v1.8.3
 	golang.org/x/net v0.3.0
 	google.golang.org/grpc v1.47.0
 	google.golang.org/protobuf v1.28.1
@@ -28,6 +28,7 @@ require (
 	github.com/google/go-cmp v0.5.9 // indirect
 	github.com/hashicorp/hcl/v2 v2.15.0 // indirect
 	github.com/inconshreveable/mousetrap v1.0.1 // indirect
+	github.com/jhump/protoreflect v1.14.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/kr/pretty v0.3.0 // indirect
 	github.com/mattn/go-runewidth v0.0.9 // indirect
