@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/rs/cors"
 	"github.com/ts1106/favomic-api/ent"
 	"github.com/ts1106/favomic-api/ent/migrate"
 	"github.com/ts1106/favomic-api/internal/router"
@@ -27,9 +28,9 @@ func main() {
 	}
 
 	r := router.NewRouter(client)
-
+	corsHandler := cors.AllowAll().Handler(h2c.NewHandler(r, &http2.Server{}))
 	http.ListenAndServe(
 		"0.0.0.0:8080",
-		h2c.NewHandler(r, &http2.Server{}),
+		corsHandler,
 	)
 }
